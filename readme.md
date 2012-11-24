@@ -1,5 +1,7 @@
 # Testacular generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-testacular.png?branch=master)](http://travis-ci.org/yeoman/generator-testacular)
 
+Maintainer: [Brian Ford](https://github.com/btford)
+
 
 ## Contribute
 
