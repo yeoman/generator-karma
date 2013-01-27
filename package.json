@@ -11,8 +11,7 @@
   "homepage": "https://github.com/yeoman/generator-testacular",
   "bugs": "https://github.com/yeoman/generator-testacular/issues",
   "author": "Chrome Developer Relations",
-  "main": "",
-  "bin": "",
+  "main": "app/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/yeoman/generator-testacular.git"
@@ -21,10 +20,10 @@
     "test": "mocha --reporter spec"
   },
   "dependencies": {
-    "yeoman-generators": "https://github.com/yeoman/generators/archive/master.tar.gz"
+    "yeoman-generator": "https://github.com/yeoman/generators/archive/master.tar.gz"
   },
   "devDependencies": {
-    "mocha": "~1.7.1"
+    "mocha": "~1.8.1"
   },
   "engines": {
     "node": ">=0.8.0"

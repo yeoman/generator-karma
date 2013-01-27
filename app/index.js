@@ -1,7 +1,8 @@
+'use strict';
+var util = require('util');
+var path = require('path');
+var yeoman = require('yeoman-generator');
 
-var util = require('util'),
-    path = require('path'),
-    yeoman = require('yeoman-generators');
 
 module.exports = Generator;
 
@@ -21,32 +22,29 @@ util.inherits(Generator, yeoman.generators.Base);
 Generator.prototype.setupEnv = function setupEnv() {
   // Copies the contents of the generator `templates`
   // directory into your users new application path
-
-  this.directory('.','.', true);
+  this.directory('.', '.', true);
 
   // TODO: not sure if this is the most pragmatic way to do this
   if (this.interactive) {
-    this.log.writeln("You may want to add the following to your Gruntfile.js:\n");
-    [
-      "    grunt.registerTask('test', 'run the testacular test driver', function () {",
-      "      var done = this.async();",
-      "      require('child_process').exec('testacular start --single-run', function (err, stdout) {",
-      "        grunt.log.write(stdout);",
-      "        done(err);",
-      "      });",
-      "    });",
-      ""
-    ].forEach(function (ln) {
-      console.log(ln);
-    });
+    console.log([
+      'You may want to add the following to your Gruntfile.js:',
+      '',
+      '    grunt.registerTask(\'test\', \'run the testacular test driver\', function () {',
+      '      var done = this.async();',
+      '      require(\'child_process\').exec(\'testacular start --single-run\', function (err, stdout) {',
+      '        grunt.log.write(stdout);',
+      '        done(err);',
+      '      });',
+      '    });',
+      ''
+    ].join('\n'));
   }
-
 };
 
-Generator.prototype.checkTestacular = function() {
+Generator.prototype.checkTestacular = function () {
   try {
-    var testacular = require('testacular'),
-        colors = require('colors');
+    var testacular = require('testacular');
+    var colors = require('colors');
 
     // TODO: check a global dependency instead of hardcoding it.
     function isLowerVersion(current, minimum) {
@@ -70,12 +68,12 @@ Generator.prototype.checkTestacular = function() {
 
     if (isLowerVersion(testacular.VERSION, '0.4.0')) {
       console.log('\n✖ Testacular out of date\n'.yellow +
-      '  To update it, run '.grey + 'sudo npm update -g testacular');
+      '  To update it, run '.grey + 'sudo npm update -g testacular'.yellow);
     }
   } catch (err) {
-    //only bother if it's not installed
+    // only bother if it's not installed
     console.log('\n✖ Testacular not installed\n'.red +
     '  You\'re ready to start using Angular, but you need Testacular to run unit tests.\n'.grey +
-    '  Get it by running '.grey + 'sudo npm install -g testacular');
+    '  Get it by running '.grey + 'sudo npm install -g testacular'.yellow);
   }
 };
