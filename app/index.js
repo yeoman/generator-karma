@@ -47,7 +47,7 @@ Generator.prototype.checkTestacular = function () {
     var colors = require('colors');
 
     // TODO: check a global dependency instead of hardcoding it.
-    function isLowerVersion(current, minimum) {
+    var isLowerVersion = function isLowerVersion(current, minimum) {
       var i, min, cur;
 
       current = current.split('.');
