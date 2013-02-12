@@ -28,16 +28,8 @@ Generator.prototype.setupEnv = function setupEnv() {
   // TODO: not sure if this is the most pragmatic way to do this
   if (this.interactive) {
     console.log([
-      'You may want to add the following to your Gruntfile.js:',
-      '',
-      '    grunt.registerTask(\'test\', \'run the testacular test driver\', function () {',
-      '      var done = this.async();',
-      '      require(\'child_process\').exec(\'testacular start --single-run\', function (err, stdout) {',
-      '        grunt.log.write(stdout);',
-      '        done(err);',
-      '      });',
-      '    });',
-      ''
+      'If you have not already, install the "gruntacular" plugin for grunt:',
+      '  npm install --save gruntacular',
     ].join('\n'));
   }
 };
