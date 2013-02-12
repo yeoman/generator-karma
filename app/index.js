@@ -2,7 +2,8 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
-
+var colors = require('colors');
+var semver = require('semver');
 
 module.exports = Generator;
 
@@ -44,36 +45,14 @@ Generator.prototype.setupEnv = function setupEnv() {
 Generator.prototype.checkTestacular = function () {
   try {
     var testacular = require('testacular');
-    var colors = require('colors');
 
-    // TODO: check a global dependency instead of hardcoding it.
-    var isLowerVersion = function isLowerVersion(current, minimum) {
-      var i, min, cur;
-
-      current = current.split('.');
-      minimum = minimum.split('.');
-
-      for (i in minimum) {
-        cur = parseInt(current[i], 10);
-        min = parseInt(minimum[i], 10);
-
-        if (cur < min) {
-          return true;
-        } else if (cur > min) {
-          return false;
-        }
-      }
-      return false;
-    }
-
-    if (isLowerVersion(testacular.VERSION, '0.4.0')) {
+    if (semver.lt(testacular.VERSION, '0.4.0')) {
       console.log('\n✖ Testacular out of date\n'.yellow +
-      '  To update it, run '.grey + 'sudo npm update -g testacular'.yellow);
+      '  To update it, run '.grey + 'npm update -g testacular'.yellow);
     }
   } catch (err) {
-    // only bother if it's not installed
     console.log('\n✖ Testacular not installed\n'.red +
     '  You\'re ready to start using Angular, but you need Testacular to run unit tests.\n'.grey +
-    '  Get it by running '.grey + 'sudo npm install -g testacular'.yellow);
+    '  Get it by running '.grey + 'npm install -g testacular'.yellow);
   }
 };
