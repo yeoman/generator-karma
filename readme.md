@@ -2,6 +2,11 @@
 
 Maintainer: [Brian Ford](https://github.com/btford)
 
+## Usage
+
+Running `yo testacular` will generate a `testacular.conf.js` file for your project.
+
+Note that you'll need to install the `gruntacular` plugin for grunt and update your `Gruntfile.js`. If you're using testacular through the [AngularJS](https://github.com/yeoman/generator-angular) generator, all of the configuration is done for you.
 
 ## Contribute
 
