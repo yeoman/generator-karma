@@ -29,22 +29,7 @@ Generator.prototype.setupEnv = function setupEnv() {
   if (this.interactive) {
     console.log([
       'If you have not already, install the "gruntacular" plugin for grunt:',
-      '  npm install --save gruntacular',
+      '  npm install --save gruntacular'
     ].join('\n'));
-  }
-};
-
-Generator.prototype.checkTestacular = function () {
-  try {
-    var testacular = require('testacular');
-
-    if (semver.lt(testacular.VERSION, '0.4.0')) {
-      console.log('\n✖ Testacular out of date\n'.yellow +
-      '  To update it, run '.grey + 'npm update -g testacular'.yellow);
-    }
-  } catch (err) {
-    console.log('\n✖ Testacular not installed\n'.red +
-    '  You\'re ready to start using Angular, but you need Testacular to run unit tests.\n'.grey +
-    '  Get it by running '.grey + 'npm install -g testacular'.yellow);
   }
 };
