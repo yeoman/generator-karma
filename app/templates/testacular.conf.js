@@ -19,8 +19,8 @@ files = [
 exclude = [];
 
 // test results reporter to use
-// possible values: dots || progress
-reporter = 'progress';
+// possible values: dots || progress || growl
+reporters = ['progress'];
 
 // web server port
 port = 8080;
