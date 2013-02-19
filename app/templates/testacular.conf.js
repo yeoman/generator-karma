@@ -9,10 +9,12 @@ files = [
   JASMINE_ADAPTER,
   'app/components/angular/angular.js',
   'test/vendor/angular-mocks.js',
-  'app/scripts/*.js',
   'app/scripts/**/*.js',
-  'test/mock/**/*.js',
-  'test/spec/**/*.js'
+  // generated js script from cs
+  '.tmp/scripts/**/*.js',
+  'test/**/*.js',
+  // generated js test from cs
+  '.tmp/test/**/*.js'
 ];
 
 // list of files to exclude
