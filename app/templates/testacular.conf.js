@@ -43,8 +43,9 @@ autoWatch = false;
 // - ChromeCanary
 // - Firefox
 // - Opera
-// - Safari
+// - Safari (only Mac)
 // - PhantomJS
+// - IE (only Windows)
 browsers = ['Chrome'];
 
 // Continuous Integration mode
