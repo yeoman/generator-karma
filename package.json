@@ -21,7 +21,7 @@
     "test": "mocha --reporter spec"
   },
   "dependencies": {
-    "yeoman-generator": "~0.10.0",
+    "yeoman-generator": "~0.10.2",
     "colors": "~0.6.0",
     "semver": "~1.1.3"
   },
