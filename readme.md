@@ -13,7 +13,7 @@ PhantomJS is a great option too, but it has the one drawback that it won't expos
 
 Running `yo karma` will generate a `karma.conf.js` file for your project.
 
-Note that you'll need to install the `gruntacular` plugin for Grunt and update your `Gruntfile.js`. If you're using Karma through the [AngularJS](https://github.com/yeoman/generator-angular) generator, all of the configuration is done for you.
+Note that you'll need to install the `grunt-karma` plugin for Grunt and update your `Gruntfile.js`. If you're using Karma through the [AngularJS](https://github.com/yeoman/generator-angular) generator, all of the configuration is done for you.
 
 ## Configuration
 Karma can be configured by editing `karma.conf.js`. See the documentation page on the [config file](http://karma-runner.github.com/0.8/config/configuration-file.html) for an exhaustive list of options.
