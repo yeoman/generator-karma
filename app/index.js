@@ -28,8 +28,8 @@ Generator.prototype.setupEnv = function setupEnv() {
   // TODO: not sure if this is the most pragmatic way to do this
   if (this.interactive) {
     console.log([
-      'If you have not already, install the "gruntacular" plugin for grunt:',
-      '  npm install --save gruntacular'
+      'If you have not already, install the "grunt-karma" plugin for grunt:',
+      '  npm install --save grunt-karma'
     ].join('\n'));
   }
 };
