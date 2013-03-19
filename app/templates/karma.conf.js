@@ -1,4 +1,4 @@
-// Testacular configuration
+// Karma configuration
 
 // base path, that will be used to resolve files and exclude
 basePath = '';

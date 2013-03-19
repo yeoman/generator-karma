@@ -1,7 +1,7 @@
 {
-  "name": "generator-testacular",
+  "name": "generator-karma",
   "version": "0.1.1",
-  "description": "Yeoman generator for Testacular",
+  "description": "Yeoman generator for Karma",
   "keywords": [
     "yeoman-generator",
     "yeoman",
@@ -9,13 +9,13 @@
     "test",
     "runner"
   ],
-  "homepage": "https://github.com/yeoman/generator-testacular",
-  "bugs": "https://github.com/yeoman/generator-testacular/issues",
+  "homepage": "https://github.com/yeoman/generator-karma",
+  "bugs": "https://github.com/yeoman/generator-karma/issues",
   "author": "Chrome Developer Relations",
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/yeoman/generator-testacular.git"
+    "url": "git://github.com/yeoman/generator-karma.git"
   },
   "scripts": {
     "test": "mocha --reporter spec"
