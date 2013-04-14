@@ -27,6 +27,6 @@ Generator.prototype.setupEnv = function setupEnv() {
 
   // TODO: not sure if this is the most pragmatic way to do this
   if (this.interactive) {
-    this.npmInstall(['grunt-karma'], { save: true }, function () {});
+    this.npmInstall(['grunt-karma'], { save: true });
   }
 };
