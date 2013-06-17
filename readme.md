@@ -21,6 +21,21 @@ Running `yo karma` will generate a `karma.conf.js` file for your project.
 Note that you'll need to install the `grunt-karma` plugin for Grunt and update your `Gruntfile.js`. If you're using Karma through the [AngularJS](https://github.com/yeoman/generator-angular) generator, all of the configuration is done for you.
 
 
+## Options
+
+* `--skip-install`
+
+  Skips the automatic execution of `bower` and `npm` after scaffolding has finished.
+
+* `--test-framework=[framework]`
+
+  Defaults to `mocha`. Can be switched for another supported testing framework like `jasmine` or `qunit`.
+
+* `--coffee`
+
+  Enable support for CoffeeScript.
+  
+  
 ## Configuration
 
 Karma can be configured by editing `karma.conf.js`. See the documentation page on the [config file](http://karma-runner.github.com/0.8/config/configuration-file.html) for an exhaustive list of options.
