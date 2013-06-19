@@ -27,6 +27,14 @@ Note that you'll need to install the `grunt-karma` plugin for Grunt and update y
 
   Skips the automatic execution of `bower` and `npm` after scaffolding has finished.
 
+* `--skip-save`
+
+  Skips the generation of `bower.json` and `package.json`.
+
+* `--mvc-framework=[framework]`
+
+  Defaults to `angular`. Can be switched for another supported MVC-framework like `ember`.
+
 * `--test-framework=[framework]`
 
   Defaults to `mocha`. Can be switched for another supported testing framework like `jasmine` or `qunit`.
