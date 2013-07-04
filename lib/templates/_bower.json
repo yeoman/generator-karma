@@ -1,0 +1,15 @@
+{
+  "name": "Karma Test Runner",
+  "version": "0.0.0",
+  "dependencies": {
+    <% if (mvcFramework === 'ember') {  %>"jquery": "~2.0.2",
+    "handlebars": "1.0.0-rc.4",
+    "ember": "1.0.0-rc.5",
+    "ember-data-shim": "~0.0.13"<% }else if(mvcFramework === 'angular') { %>
+    "angular": "~1.0.7",
+    "angular-mocks": "~1.0.7"<% } %>
+    <% if (pavlov) {  %>,"pavlov": "https://github.com/pixelhandler/pavlov.git"
+    <% }else if(chai) { %>,"chai": "~1.7.2" <% } %>
+},
+  "devDependencies": {}
+}

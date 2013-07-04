@@ -18,13 +18,54 @@ describe('Karma generator test', function () {
     }.bind(this));
   });
 
-  it('creates expected files', function (done) {
+  it('creates expected files for angular', function (done) {
     var expected = [
       'karma.conf.js',
-      'karma-e2e.conf.js'
+      'karma-e2e.conf.js',
+      '.bowerrc',
+      'bower.json',
+      'package.json'
     ];
 
     this.app.options['skip-install'] = true;
+    this.app.run({}, function () {
+      helpers.assertFiles(expected);
+      done();
+    });
+  });
+
+    it('creates expected files for ember', function (done) {
+      var expected = [
+        'karma.conf.js',
+        '.bowerrc',
+        'bower.json',
+        'package.json'
+      ];
+
+      this.app.options['skip-install'] = true;
+      this.app.options['mvcFramework'] = 'ember';
+
+      this.app.run({}, function () {
+        helpers.assertFiles(expected);
+        done();
+      });
+    });
+
+  it('creates expected files without bower.json and package.json', function (done) {
+    var expected = [
+      'karma.conf.js',
+      'karma-e2e.conf.js',
+    ];
+
+    var notExpected = [
+      '.bowerrc',
+      'bower.json',
+      'package.json'
+    ];
+
+    this.app.options['skip-save'] = true;
+    this.app.options['skip-install'] = true;
+
     this.app.run({}, function () {
       helpers.assertFiles(expected);
       done();

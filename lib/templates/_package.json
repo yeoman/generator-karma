@@ -1,0 +1,11 @@
+{
+  "name": "Karma Test Runner",
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt-karma": "~0.4.4"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}
