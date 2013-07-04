@@ -9,7 +9,7 @@
     "angular": "~1.0.7",
     "angular-mocks": "~1.0.7"<% } %>
     <% if (pavlov) {  %>,"pavlov": "https://github.com/pixelhandler/pavlov.git"
-    <% }else if(chai) { %>,"chai": "https://raw.github.com/chaijs/chai/master/chai.js" <% } %>
+    <% }else if(chai) { %>,"chai": "~1.7.2" <% } %>
 },
   "devDependencies": {}
 }
