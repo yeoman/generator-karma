@@ -42,7 +42,7 @@ Note that you'll need to install the `grunt-karma` plugin for Grunt and update y
   
 ## Configuration
 
-Karma can be configured by editing `karma.conf.js`. See the documentation page on the [config file](http://karma-runner.github.com/0.8/config/configuration-file.html) for an exhaustive list of options.
+Karma can be configured by editing `karma.conf.js`. See the documentation page on the [config file](http://karma-runner.github.com/0.10/config/configuration-file.html) for an exhaustive list of options.
 
 
 ## Contribute
