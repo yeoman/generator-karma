@@ -18,7 +18,7 @@ Install it globally `npm install -g generator-karma`.
 
 Running `yo karma` will generate two files for your project: `karma.conf.js` and `karma-e2e.conf.js`. It will then install the npm dependencies.
 
-Note that you'll need to install the `grunt-karma` plugin for Grunt and update your `Gruntfile.js`. If you're using Karma through the [AngularJS](https://github.com/yeoman/generator-angular) generator, all of the configuration is done for you.
+Note that you'll need to update your `Gruntfile.js`. If you're using Karma through the [AngularJS generator](https://github.com/yeoman/generator-angular), all of the configuration is done for you.
 
 
 ## Options
