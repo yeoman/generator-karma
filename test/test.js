@@ -99,4 +99,39 @@ describe('Karma generator test', function () {
       }.bind(this));
     });
   });
+
+  describe('test path configuration', function () {
+    it('change test path in karma files from options', function (done) {
+      var testFolder = 'testFolder';
+      this.app.options.testPath = testFolder;
+      this.app.options['skip-install'] = true;
+      this.app.run({}, function () {
+        // read karma Files
+        var karma = fs.readFileSync('karma.conf.js', 'utf8');
+        var karma_e2e = fs.readFileSync('karma-e2e.conf.js', 'utf8');
+
+        var regex_karma = new RegExp('\'' + testFolder + '/mock/|\'' + testFolder + '/spec/');
+        var regex_e2e = new RegExp('\'' + testFolder + '/e2e/');
+        assert.ok(regex_karma.test(karma), 'karma.conf.js test folder was not replaced');
+        assert.ok(regex_e2e.test(karma_e2e), 'karma-e2e.conf.js test folder was not replaced');
+        done();
+      }.bind(this));
+    });
+
+    it('should be backwards compatible by setting a default test path', function (done) {
+      var testFolder = 'test';
+      this.app.options['skip-install'] = true;
+      this.app.run({}, function () {
+        // read karma Files
+        var karma = fs.readFileSync('karma.conf.js', 'utf8');
+        var karma_e2e = fs.readFileSync('karma-e2e.conf.js', 'utf8');
+
+        var regex_karma = new RegExp('\'' + testFolder + '/mock/|\'' + testFolder + '/spec/');
+        var regex_e2e = new RegExp('\'' + testFolder + '/e2e/');
+        assert.ok(regex_karma.test(karma), 'karma.conf.js default test folder was not used');
+        assert.ok(regex_e2e.test(karma_e2e), 'karma-e2e.conf.js default test folder was not used');
+        done();
+      }.bind(this));
+    });
+  });
 });
