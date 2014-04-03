@@ -1,4 +1,4 @@
-# Karma generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-karma.png?branch=master)](http://travis-ci.org/yeoman/generator-karma)
+# Karma generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-karma.svg?branch=master)](http://travis-ci.org/yeoman/generator-karma)
 
 Maintainer: [Brian Ford](https://github.com/btford)
 
