@@ -1,7 +1,5 @@
 # Karma generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-karma.svg?branch=master)](http://travis-ci.org/yeoman/generator-karma)
 
-Maintainer: [Brian Ford](https://github.com/btford)
-
 See the [Karma documentation](http://karma-runner.github.com/) for more info.
 
 
