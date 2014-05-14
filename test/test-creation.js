@@ -1,17 +1,16 @@
 /*global describe, beforeEach, it */
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
+var helpers = require('yeoman-generator').test;
+var join = require('path').join;
 
 describe('Karma generator creation test', function () {
   describe('creates expected files', function () {
     var gen;
     beforeEach(function(done) {
-      gen = helpers.run(path.join(__dirname, '../app'))
-        .inDir(path.join(__dirname, 'temp'));
+      gen = helpers.run(join(__dirname, '../app'))
+        .inDir(join(__dirname, 'temp'));
       done();
     });
 
@@ -74,9 +73,9 @@ describe('Karma generator creation test', function () {
 
 
   it('creates a travis file and updates package.json', function(done) {
-    helpers.testDirectory(path.join('test', 'temp'), function () {
-      var gen = helpers.run(path.join(__dirname, '../app'));
-      fs.writeFileSync('package.json', '{}');
+    helpers.testDirectory(join('test', 'temp'), function () {
+      var gen = helpers.run(join(__dirname, '../app'));
+      require('fs').writeFileSync('package.json', '{}');
       gen.withOptions({travis: true}).onEnd(function () {
         assert.file(['.travis.yml']);
         assert.fileContent('package.json', /grunt test/);
