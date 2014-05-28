@@ -6,8 +6,8 @@ var fs = require('fs');
 
 module.exports = yeoman.generators.Base.extend({
   init: function () {
-    var notEmpty = function(str) {
-      return str.split(',').filter(function(check) {
+    var notEmpty = function (str) {
+      return str.split(',').filter(function (check) {
         return check && check !== '';
       });
     };
@@ -81,7 +81,7 @@ module.exports = yeoman.generators.Base.extend({
     });
     this.options['exclude-files'] = notEmpty(this.options['exclude-files']);
 
-    var files = this.options['bower-components'].map(function(component) {
+    var files = this.options['bower-components'].map(function (component) {
       return this.options['bower-components-path'] + (
         this.options['bower-components-path'].slice(-1) === '/' ? '' : '/'
       ) + component;
@@ -102,7 +102,7 @@ module.exports = yeoman.generators.Base.extend({
 
     // Add browsers to the plugins list
     if (this.options.browsers.length) {
-      this.options.browsers.forEach(function(browser) {
+      this.options.browsers.forEach(function (browser) {
         this.options.plugins.push('karma-' + browser.toLowerCase() + '-launcher');
       }.bind(this));
     }
@@ -152,7 +152,7 @@ module.exports = yeoman.generators.Base.extend({
   makeConfig: function () {
     this.sourceRoot(path.join(__dirname, this.options['template-path']));
 
-    this.templateArray = function(list, coffee) {
+    this.templateArray = function (list, coffee) {
       var str = [];
       list.forEach(function(item, index) {
         str.push('\n      \'' + item + '\'');
