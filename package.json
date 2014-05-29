@@ -14,7 +14,8 @@
     "test": "mocha --reporter spec"
   },
   "files": [
-    "app"
+    "app",
+    "templates"
   ],
   "keywords": [
     "yeoman-generator",
