@@ -113,6 +113,10 @@ module.exports = yeoman.generators.Base.extend({
       this.options.plugins.push('karma-' + this.options['test-framework']);
     }
 
+    if (this.options.coffee) {
+      this.options.plugins.push('karma-coffee-preprocessor');
+    }
+
     this.option('travis', {
       type: Boolean,
       desc: 'Adds a .travis.yaml file',
@@ -247,6 +251,9 @@ module.exports = yeoman.generators.Base.extend({
     if (!this.options['skip-install']) {
       this.on('end', function () {
         this.options.plugins.push('grunt-karma');
+        if (this.options.coffee) {
+          this.options.plugins.push('coffee-script');
+        }
         this.npmInstall(this.options.plugins, {
           saveDev: true
         });
