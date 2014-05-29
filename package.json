@@ -24,6 +24,7 @@
     "karma"
   ],
   "dependencies": {
+    "underscore": "^1.6.0",
     "yeoman-generator": "^0.17.0"
   },
   "devDependencies": {

@@ -3,6 +3,7 @@
 var yeoman = require('yeoman-generator');
 var path = require('path');
 var fs = require('fs');
+var _ = require('underscore');
 
 module.exports = yeoman.generators.Base.extend({
   init: function () {
@@ -154,7 +155,7 @@ module.exports = yeoman.generators.Base.extend({
 
     this.templateArray = function (list, coffee) {
       var str = [];
-      list.forEach(function(item, index) {
+      _.uniq(list).forEach(function (item, index) {
         str.push('\n      \'' + item + '\'');
         if (index + 1 === list.length) {
           str.push('\n    ');
