@@ -1,6 +1,6 @@
 {
   "name": "generator-karma",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Yeoman generator for Karma",
   "license": "BSD",
   "main": "app/index.js",
