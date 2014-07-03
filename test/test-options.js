@@ -27,7 +27,7 @@ describe('Karma generator options test', function () {
     helpers.run(path.join(__dirname, '../app'))
       .inDir(path.join(__dirname, 'temp'))
       .withOptions(config)
-      .onEnd(function () {
+      .on('end', function () {
         var test = require(path.resolve(
           config['config-path'],
           config['config-file']
