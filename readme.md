@@ -53,6 +53,10 @@ The full list:
 
   List of test files (CSV list), including spec and mock files.
 
+ * `--files-comments` Type: String, Default: ''
+
+  List of comments to add to files properties. It can be used to support bower dependencies wiring using [wiredep](https://github.com/taptapship/wiredep).
+
  * `--exclude-files` Type: String, Default: ''
 
   List of files to exclude (CSV list). Files you don't want tested.

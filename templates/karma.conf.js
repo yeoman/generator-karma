@@ -17,7 +17,7 @@ module.exports = function(config) {
     frameworks: ['<%= options["test-framework"] %>'],
 
     // list of files / patterns to load in the browser
-    files: [<%= templateArray(configFiles) %>],
+    files: [<%= templateArray(configFiles, options["files-comments"]) %>],
 
     // list of files / patterns to exclude
     exclude: [<%= templateArray(options["exclude-files"]) %>],
