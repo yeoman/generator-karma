@@ -13,6 +13,7 @@ describe('Karma generator options test', function () {
       'test-framework': 'mocha',
       'browsers': 'Chrome,PhantomJS,Firefox',
       'app-files': 'public/**/*.js,apps/*.js',
+      'files-comments': 'bower:js,endbower',
       'bower-components': 'jQuery',
       'bower-components-path': 'app',
       'test-files': 'tests/spec/*.js',

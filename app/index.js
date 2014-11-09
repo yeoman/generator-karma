@@ -55,6 +55,13 @@ module.exports = yeoman.generators.Base.extend({
     });
     this.options['app-files'] = notEmpty(this.options['app-files']);
 
+    this.option('files-comments', {
+      type: String,
+      desc: 'List of comments for files property (comma separated)',
+      defaults: ''
+    });
+    this.options['files-comments'] = notEmpty(this.options['files-comments']);
+
     this.option('bower-components', {
       type: String,
       desc: 'Optional components to use for testing (comma separated of components)',
@@ -157,18 +164,20 @@ module.exports = yeoman.generators.Base.extend({
   makeConfig: function () {
     this.sourceRoot(path.join(__dirname, this.options['template-path']));
 
-    this.templateArray = function (list, coffee) {
+    this.templateArray = function (files, comments, coffee) {
       var str = [];
-      _.uniq(list).forEach(function (item, index) {
+      _.each(comments, function (comment) {
+        str.push('\n      ' + (coffee ? '# ' : '// ') + comment);
+      });
+      _.uniq(files).forEach(function (item, index) {
         str.push('\n      \'' + item + '\'');
-        if (index + 1 === list.length) {
-          str.push('\n    ');
-        } else {
+        if (index + 1 !== files.length) {
           if (!coffee) {
             str.push(',');
           }
         }
       });
+      str.push('\n    ');
       return str.join('');
     };
 
