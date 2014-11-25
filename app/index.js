@@ -101,6 +101,13 @@ module.exports = yeoman.generators.Base.extend({
     });
     this.options.plugins = this.options.plugins ? this.options.plugins.split(',') : [];
 
+    this.option('reporters', {
+      type: String,
+      desc: 'Specify reporters',
+      defaults: ''
+    });
+    this.options.reporters = this.options.reporters ? this.options.reporters.split(',') : [];
+
     // Add browsers to the plugins list
     if (this.options.browsers.length) {
       this.options.browsers.forEach(function (browser) {

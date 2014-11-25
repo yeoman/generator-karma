@@ -38,6 +38,9 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [<%= templateArray(options.plugins) %>],
 
+    // Which reporters to enable
+    reporters: [<%= templateArray(options.reporters) %>],
+
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
     singleRun: false,

@@ -37,6 +37,9 @@ module.exports = (config) ->
     # Which plugins to enable
     plugins: [<%= templateArray(options.plugins, true) %>]
 
+    # Which reporters to enable
+    reporters: [<%= templateArray(options.reporters, true) %>]
+
     # enable / disable watching file and executing tests whenever any file changes
     autoWatch: true
 
