@@ -18,6 +18,7 @@ describe('Karma generator options test', function () {
       'test-files': 'tests/spec/*.js',
       'exclude-files': 'exclude/files.js',
       'plugins': 'qunit,jazzy',
+      'reporters': 'progress,coverage',
 
       'template-path': '../test',
       'config-path': 'testing',
@@ -47,6 +48,7 @@ describe('Karma generator options test', function () {
           ),
           test.plugins
         );
+        assert.deepEqual(config.reporters.split(','), test.reporters);
         assert.deepEqual(
           [].concat(
             config['bower-components'].split(',').map(function(component) {
