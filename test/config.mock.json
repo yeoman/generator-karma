@@ -5,5 +5,6 @@
   "exclude": <%= JSON.stringify(options['exclude-files']) %>,
   "port": <%= options['web-port'] %>,
   "browsers": <%= JSON.stringify(options.browsers) %>,
-  "plugins": <%= JSON.stringify(options.plugins) %>
+  "plugins": <%= JSON.stringify(options.plugins) %>,
+  "reporters": <%= JSON.stringify(options.reporters) %>
 }
