@@ -191,7 +191,7 @@ module.exports = yeoman.generators.Base.extend({
           options: {
             'autoWatch': false,
             'browsers': this.options.browsers,
-            'config-file': [
+            'configFile': [
               this.options['config-path'],
               '/',
               this.options['config-file']
