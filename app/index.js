@@ -34,12 +34,15 @@ module.exports = yeoman.generators.Base.extend({
       defaults: 8080
     });
 
-    this.option('test-framework', {
+    this.option('frameworks', {
       type: String,
-      desc: 'Specifies which testing framework to use',
+      desc: 'Specifies which testing frameworks to use (comma separated)',
       defaults: 'jasmine'
     });
-    this.options['test-framework'] = this.options['test-framework'].toLowerCase();
+    this.options.frameworks = notEmpty(this.options.frameworks);
+    this.frameworks = this.options.frameworks.map(function (framework) {
+      return framework.toLowerCase();
+    });
 
     this.option('browsers', {
       type: String,
@@ -115,10 +118,10 @@ module.exports = yeoman.generators.Base.extend({
       }.bind(this));
     }
 
-    // Add test-framework to the plugins list
-    if (this.options['test-framework']) {
-      this.options.plugins.push('karma-' + this.options['test-framework']);
-    }
+    // Add frameworks to the plugins list
+    this.options.plugins = this.options.plugins.concat(this.frameworks.map(function(framework) {
+      return 'karma-' + framework;
+    }));
 
     if (this.options.coffee) {
       this.options.plugins.push('karma-coffee-preprocessor');

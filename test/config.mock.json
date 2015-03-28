@@ -1,6 +1,6 @@
 {
   "base-path": "<%= options['base-path'] %>",
-  "frameworks": ["<%= options['test-framework'] %>"],
+  "frameworks": <%= JSON.stringify(frameworks) %>,
   "files": <%= JSON.stringify(configFiles) %>,
   "exclude": <%= JSON.stringify(options['exclude-files']) %>,
   "port": <%= options['web-port'] %>,
