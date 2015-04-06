@@ -3,6 +3,8 @@
 var yeoman = require('yeoman-generator');
 var path = require('path');
 var fs = require('fs');
+var sortedObject = require("sorted-object");
+
 var _ = require('underscore');
 
 module.exports = yeoman.generators.Base.extend({
@@ -187,6 +189,45 @@ module.exports = yeoman.generators.Base.extend({
     );
   },
 
+  writeDependencies: function() {
+
+    this.options.plugins.push('grunt-karma');
+    if (this.options.coffee) {
+      this.options.plugins.push('coffee-script');
+    }
+
+    var done = this.async();
+    var packageJson = path.join(
+      this.options.cwd || process.cwd(),
+      'package.json'
+    );
+
+    fs.readFile(packageJson, { encoding: 'utf-8' }, function (err, content) {
+      var data;
+      if (err) {
+        this.log.error('Could not open package.json for reading.', err);
+        done();
+        return;
+      }
+
+      try {
+        data = JSON.parse(content);
+      } catch (err) {
+        this.log.error('Could not parse package.json.', err);
+        done();
+        return;
+      }
+
+      data.devDependencies = data.devDependencies || {};
+      this.options.plugins.forEach(function (plugin) {
+        data.devDependencies[plugin] = '*';
+      })
+      data.devDependencies = sortedObject(data.devDependencies);
+
+      fs.writeFile(packageJson, JSON.stringify(data, null, 2), done);
+    }.bind(this));
+  },
+
   writeGruntFile: function () {
     if (!this.options['gruntfile-path']) {
       return;
@@ -259,15 +300,7 @@ module.exports = yeoman.generators.Base.extend({
 
   installDeps: function () {
     if (!this.options['skip-install']) {
-      this.on('end', function () {
-        this.options.plugins.push('grunt-karma');
-        if (this.options.coffee) {
-          this.options.plugins.push('coffee-script');
-        }
-        this.npmInstall(this.options.plugins, {
-          saveDev: true
-        });
-      });
+        this.npmInstall();
     }
   }
 });
