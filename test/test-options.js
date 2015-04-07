@@ -10,7 +10,7 @@ describe('Karma generator options test', function () {
     var config = {
       'base-path': 'new base-path',
       'web-port': 80,
-      'test-framework': 'mocha',
+      'frameworks': 'mocha,chai,sinon',
       'browsers': 'Chrome,PhantomJS,Firefox',
       'app-files': 'public/**/*.js,apps/*.js',
       'files-comments': 'bower:js,endbower',
@@ -33,8 +33,9 @@ describe('Karma generator options test', function () {
           config['config-path'],
           config['config-file']
         ));
+        var frameworks = config.frameworks.split(',');
         assert.equal(config['base-path'], test['base-path']);
-        assert.equal(config['test-framework'], test.frameworks);
+        assert.deepEqual(frameworks, test.frameworks);
         assert.equal(config['web-port'], test.port);
         assert.deepEqual(config.browsers.split(','), test.browsers);
         assert.deepEqual(config['exclude-files'].split(','), test.exclude);
@@ -44,7 +45,9 @@ describe('Karma generator options test', function () {
             config.browsers.split(',').map(function(browser) {
               return 'karma-' + browser.toLowerCase() + '-launcher';
             }),
-            'karma-' + config['test-framework']
+            frameworks.map(function(framework) {
+              return 'karma-' + framework.toLowerCase();
+            })
           ),
           test.plugins
         );

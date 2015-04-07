@@ -25,7 +25,7 @@ There are a lot of options going on here. None of them are required and most are
 
 Options are specified after `yo karma`. Example:
 
-`yo karma --skip-install --test-framework=jasmine --app-files='app/**/*.js,public/**/*.js'`
+`yo karma --skip-install --frameworks=jasmine --app-files='app/**/*.js,public/**/*.js'`
 
 The full list:
 
@@ -37,9 +37,9 @@ The full list:
 
   Use CoffeeScript instead of JavaScript.
 
- * `--test-framework` Type: String, Default: 'jasmine'
+ * `--frameworks` Type: String, Default: 'jasmine'
 
-  Specifies which testing framework to use.
+  Specifies which testing frameworks to use (CSV list). Example `--frameworks=mocha,chai,requirejs,sinon`
 
  * `--browsers` Type: String, Default: 'PhantomJS'
 
