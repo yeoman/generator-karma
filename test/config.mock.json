@@ -1,9 +1,9 @@
 {
-  "base-path": "<%= options['base-path'] %>",
+  "base-path": "<%= basePath %>",
   "frameworks": <%= JSON.stringify(frameworks) %>,
   "files": <%= JSON.stringify(configFiles) %>,
-  "exclude": <%= JSON.stringify(options['exclude-files']) %>,
-  "port": <%= options['web-port'] %>,
-  "browsers": <%= JSON.stringify(options.browsers) %>,
-  "plugins": <%= JSON.stringify(options.plugins) %>
+  "exclude": <%= JSON.stringify(exclude) %>,
+  "port": <%= port %>,
+  "browsers": <%= JSON.stringify(browsers) %>,
+  "plugins": <%= JSON.stringify(plugins) %>
 }
