@@ -79,7 +79,6 @@ describe('Karma generator creation test', function () {
     });
   });
 
-
   it('creates a travis file and updates package.json', function(done) {
     helpers.testDirectory(join('test', 'temp'), function () {
       var gen = helpers.run(join(__dirname, '../app'));
@@ -87,6 +86,18 @@ describe('Karma generator creation test', function () {
       gen.withOptions({travis: true}).on('end', function () {
         assert.file(['.travis.yml']);
         assert.fileContent('package.json', /grunt test/);
+        done();
+      });
+    });
+  });
+
+  it('updates package.json with karma dependencies', function(done) {
+    helpers.testDirectory(join('test', 'temp'), function () {
+      var gen = helpers.run(join(__dirname, '../app'));
+      require('fs').writeFileSync('package.json', '{"dependencies":{"grunt":"1.0.0"}}');
+      gen.withOptions({travis: true}).on('end', function () {
+        assert.fileContent('package.json', /karma/);
+        assert.fileContent('package.json', /grunt/);
         done();
       });
     });
