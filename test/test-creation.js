@@ -1,16 +1,15 @@
 /*global describe, beforeEach, it */
 'use strict';
-
+var join = require('path').join;
 var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
-var join = require('path').join;
 
 describe('Karma generator creation test', function () {
   describe('creates expected files', function () {
     var gen;
     beforeEach(function (done) {
       gen = helpers.run(join(__dirname, '../app'));
-      gen.inTmpDir(function (dir) {
+      gen.inTmpDir(function () {
         done();
       });
     });
@@ -60,7 +59,7 @@ describe('Karma generator creation test', function () {
       gen = helpers.run(join(__dirname, '../app'))
         .on('ready', function () {
           gen.generator.log.__olderror = gen.generator.log.error;
-          gen.generator.log.error = function (){
+          gen.generator.log.error = function () {
             logMessage += arguments[0];
             gen.generator.log.__olderror.apply(gen.generator.log, arguments);
           };
@@ -87,7 +86,7 @@ describe('Karma generator creation test', function () {
     helpers
       .run(join(__dirname, '../app'))
       .withOptions({travis: true, force: true})
-      .inTmpDir(function (dir){
+      .inTmpDir(function (dir) {
         require('fs').writeFileSync(join(dir,'package.json'), '{}');
       })
       .on('end', function () {
@@ -101,7 +100,7 @@ describe('Karma generator creation test', function () {
     helpers
       .run(join(__dirname, '../app'))
       .withOptions({travis: true, force: true})
-      .inTmpDir(function (dir){
+      .inTmpDir(function (dir) {
         require('fs').writeFileSync(join(dir,'package.json'), '{"dependencies":{"grunt":"1.0.0"}}');
       })
       .on('end', function () {

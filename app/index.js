@@ -1,18 +1,16 @@
 'use strict';
-
-var yeoman = require('yeoman-generator');
 var path = require('path');
+var yeoman = require('yeoman-generator');
 var sortedObject = require('sorted-object');
-
 var _ = require('underscore');
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
-    var arrayFromString = function (str) {
+    function arrayFromString(str) {
       return str.split(',').filter(function (check) {
         return check && check !== '';
       });
-    };
+    }
 
     this.pkg = require('../package.json');
 
@@ -21,6 +19,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'Use CoffeeScript instead of JavaScript',
       defaults: false
     });
+
     this.options.format = this.options.coffee ? 'coffee' : 'js';
 
     this.option('base-path', {
@@ -40,6 +39,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'Specifies which testing frameworks to use (comma separated)',
       defaults: 'jasmine'
     });
+
     this.options.frameworks = arrayFromString(this.options.frameworks);
     this.frameworks = this.options.frameworks.map(function (framework) {
       return framework.toLowerCase();
@@ -50,6 +50,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'What browsers to test in (comma separated)',
       defaults: 'PhantomJS'
     });
+
     this.options.browsers = arrayFromString(this.options.browsers);
 
     this.option('app-files', {
@@ -57,6 +58,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'List of application files (comma separated)',
       defaults: ''
     });
+
     this.options['app-files'] = arrayFromString(this.options['app-files']);
 
     this.option('files-comments', {
@@ -64,6 +66,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'List of comments for files property (comma separated)',
       defaults: ''
     });
+
     this.options['files-comments'] = arrayFromString(this.options['files-comments']);
 
     this.option('bower-components', {
@@ -71,6 +74,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'Optional components to use for testing (comma separated of components)',
       defaults: ''
     });
+
     this.options['bower-components'] = arrayFromString(this.options['bower-components']);
 
     this.option('bower-components-path', {
@@ -84,6 +88,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'List of test files (comma separated)',
       defaults: ''
     });
+
     this.options['test-files'] = arrayFromString(this.options['test-files']);
 
     this.option('exclude-files', {
@@ -91,6 +96,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'List of files to exclude (comma separated)',
       defaults: ''
     });
+
     this.options['exclude-files'] = arrayFromString(this.options['exclude-files']);
 
     var files = this.options['bower-components'].map(function (component) {
@@ -110,6 +116,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'Specify Karma plugins (npm modules)',
       defaults: ''
     });
+
     this.options.plugins = this.options.plugins ? this.options.plugins.split(',') : [];
 
     // Add browsers to the plugins list
@@ -140,6 +147,7 @@ module.exports = yeoman.generators.Base.extend({
       hide: true,
       defaults: '../templates'
     });
+
     this.option('config-path', {
       type: String,
       desc: 'Path where the config files should be written to',
@@ -171,8 +179,7 @@ module.exports = yeoman.generators.Base.extend({
 
       this.fs.copyTpl(
         this.templatePath(this.options['config-file']),
-        this.destinationPath(path.join(this.options['config-path'], this.options['config-file'])),
-        {
+        this.destinationPath(path.join(this.options['config-path'], this.options['config-file'])), {
           pkg: this.pkg,
           basePath: this.options['base-path'],
           frameworks: this.frameworks,
@@ -203,24 +210,26 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     writeDependencies: function () {
-
       this.options.plugins.push('grunt-karma');
+
       if (this.options.coffee) {
         this.options.plugins.push('coffee-script');
       }
 
       var data = this.fs.readJSON(this.destinationPath('package.json'));
+
       if (!data) {
         this.log.error('Could not open package.json for reading.');
         return;
       }
 
       data.devDependencies = data.devDependencies || {};
+
       this.options.plugins.forEach(function (plugin) {
         data.devDependencies[plugin] = '*';
       });
-      data.devDependencies = sortedObject(data.devDependencies);
 
+      data.devDependencies = sortedObject(data.devDependencies);
       this.fs.writeJSON(this.destinationPath('package.json'), data);
     },
 
@@ -235,18 +244,19 @@ module.exports = yeoman.generators.Base.extend({
         JSON.stringify({
           unit: {
             options: {
-              'autoWatch': false,
-              'browsers': this.options.browsers,
-              'configFile': [
+              autoWatch: false,
+              browsers: this.options.browsers,
+              configFile: [
                 this.options['config-path'],
                 '/',
                 this.options['config-file']
               ].join(''),
-              'singleRun': true
+              singleRun: true
             }
           }
         })
       );
+
       this.gruntfile.registerTask('test', ['karma']);
     },
 
@@ -269,11 +279,12 @@ module.exports = yeoman.generators.Base.extend({
 
       if (data.scripts && data.scripts.test) {
         this.log.writeln('Test script already present in package.json. Skipping rewriting.');
-      } else {
-        data.scripts = data.scripts || {};
-        data.scripts.test = 'grunt test';
-        this.fs.writeJSON(this.destinationPath('package.json'), data);
+        return;
       }
+
+      data.scripts = data.scripts || {};
+      data.scripts.test = 'grunt test';
+      this.fs.writeJSON(this.destinationPath('package.json'), data);
     }
   },
 
