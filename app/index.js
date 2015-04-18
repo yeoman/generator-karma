@@ -2,14 +2,13 @@
 
 var yeoman = require('yeoman-generator');
 var path = require('path');
-var fs = require('fs');
-var sortedObject = require("sorted-object");
+var sortedObject = require('sorted-object');
 
 var _ = require('underscore');
 
 module.exports = yeoman.generators.Base.extend({
-  init: function () {
-    var notEmpty = function (str) {
+  initializing: function () {
+    var arrayFromString = function (str) {
       return str.split(',').filter(function (check) {
         return check && check !== '';
       });
@@ -41,7 +40,7 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'Specifies which testing frameworks to use (comma separated)',
       defaults: 'jasmine'
     });
-    this.options.frameworks = notEmpty(this.options.frameworks);
+    this.options.frameworks = arrayFromString(this.options.frameworks);
     this.frameworks = this.options.frameworks.map(function (framework) {
       return framework.toLowerCase();
     });
@@ -51,28 +50,28 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'What browsers to test in (comma separated)',
       defaults: 'PhantomJS'
     });
-    this.options.browsers = notEmpty(this.options.browsers);
+    this.options.browsers = arrayFromString(this.options.browsers);
 
     this.option('app-files', {
       type: String,
       desc: 'List of application files (comma separated)',
       defaults: ''
     });
-    this.options['app-files'] = notEmpty(this.options['app-files']);
+    this.options['app-files'] = arrayFromString(this.options['app-files']);
 
     this.option('files-comments', {
       type: String,
       desc: 'List of comments for files property (comma separated)',
       defaults: ''
     });
-    this.options['files-comments'] = notEmpty(this.options['files-comments']);
+    this.options['files-comments'] = arrayFromString(this.options['files-comments']);
 
     this.option('bower-components', {
       type: String,
       desc: 'Optional components to use for testing (comma separated of components)',
       defaults: ''
     });
-    this.options['bower-components'] = notEmpty(this.options['bower-components']);
+    this.options['bower-components'] = arrayFromString(this.options['bower-components']);
 
     this.option('bower-components-path', {
       type: String,
@@ -85,14 +84,14 @@ module.exports = yeoman.generators.Base.extend({
       desc: 'List of test files (comma separated)',
       defaults: ''
     });
-    this.options['test-files'] = notEmpty(this.options['test-files']);
+    this.options['test-files'] = arrayFromString(this.options['test-files']);
 
     this.option('exclude-files', {
       type: String,
       desc: 'List of files to exclude (comma separated)',
       defaults: ''
     });
-    this.options['exclude-files'] = notEmpty(this.options['exclude-files']);
+    this.options['exclude-files'] = arrayFromString(this.options['exclude-files']);
 
     var files = this.options['bower-components'].map(function (component) {
       return this.options['bower-components-path'] + (
@@ -121,7 +120,7 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     // Add frameworks to the plugins list
-    this.options.plugins = this.options.plugins.concat(this.frameworks.map(function(framework) {
+    this.options.plugins = this.options.plugins.concat(this.frameworks.map(function (framework) {
       return 'karma-' + framework;
     }));
 
@@ -166,144 +165,119 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
 
-  makeConfig: function () {
-    this.sourceRoot(path.join(__dirname, this.options['template-path']));
+  writing: {
+    makeConfig: function () {
+      this.sourceRoot(path.join(__dirname, this.options['template-path']));
 
-    this.templateArray = function (files, comments, coffee) {
-      var str = [];
-      _.each(comments, function (comment) {
-        str.push('\n      ' + (coffee ? '# ' : '// ') + comment);
-      });
-      _.uniq(files).forEach(function (item, index) {
-        str.push('\n      \'' + item + '\'');
-        if (index + 1 !== files.length) {
-          if (!coffee) {
-            str.push(',');
+      this.fs.copyTpl(
+        this.templatePath(this.options['config-file']),
+        this.destinationPath(path.join(this.options['config-path'], this.options['config-file'])),
+        {
+          pkg: this.pkg,
+          basePath: this.options['base-path'],
+          frameworks: this.frameworks,
+          fileComments: this.options['files-comments'],
+          configFiles: this.configFiles,
+          exclude: this.options['exclude-files'],
+          port: this.options['web-port'],
+          browsers: this.options.browsers,
+          plugins: this.options.plugins,
+          templateArray: function (files, comments, coffee) {
+            var str = [];
+            _.each(comments, function (comment) {
+              str.push('\n      ' + (coffee ? '# ' : '// ') + comment);
+            });
+            _.uniq(files).forEach(function (item, index) {
+              str.push('\n      \"' + item + '\"');
+              if (index + 1 !== files.length) {
+                if (!coffee) {
+                  str.push(',');
+                }
+              }
+            });
+            str.push('\n    ');
+            return str.join('');
           }
         }
-      });
-      str.push('\n    ');
-      return str.join('');
-    };
+      );
+    },
 
-    this.template(
-      this.options['config-file'],
-      path.join(this.options['config-path'], this.options['config-file'])
-    );
-  },
+    writeDependencies: function () {
 
-  writeDependencies: function() {
-
-    this.options.plugins.push('grunt-karma');
-    if (this.options.coffee) {
-      this.options.plugins.push('coffee-script');
-    }
-
-    var done = this.async();
-    var packageJson = path.join(
-      this.options.cwd || process.cwd(),
-      'package.json'
-    );
-
-    fs.readFile(packageJson, { encoding: 'utf-8' }, function (err, content) {
-      var data;
-      if (err) {
-        this.log.error('Could not open package.json for reading.', err);
-        done();
-        return;
+      this.options.plugins.push('grunt-karma');
+      if (this.options.coffee) {
+        this.options.plugins.push('coffee-script');
       }
 
-      try {
-        data = JSON.parse(content);
-      } catch (err) {
-        this.log.error('Could not parse package.json.', err);
-        done();
+      var data = this.fs.readJSON(this.destinationPath('package.json'));
+      if (!data) {
+        this.log.error('Could not open package.json for reading.');
         return;
       }
 
       data.devDependencies = data.devDependencies || {};
       this.options.plugins.forEach(function (plugin) {
         data.devDependencies[plugin] = '*';
-      })
+      });
       data.devDependencies = sortedObject(data.devDependencies);
 
-      fs.writeFile(packageJson, JSON.stringify(data, null, 2), done);
-    }.bind(this));
-  },
+      this.fs.writeJSON(this.destinationPath('package.json'), data);
+    },
 
-  writeGruntFile: function () {
-    if (!this.options['gruntfile-path']) {
-      return;
-    }
-
-    this.gruntfile.loadNpmTasks('grunt-karma');
-    this.gruntfile.insertConfig(
-      'karma',
-      JSON.stringify({
-        unit: {
-          options: {
-            'autoWatch': false,
-            'browsers': this.options.browsers,
-            'configFile': [
-              this.options['config-path'],
-              '/',
-              this.options['config-file']
-            ].join(''),
-            'singleRun': true
-          }
-        }
-      })
-    );
-    this.gruntfile.registerTask('test', ['karma']);
-  },
-
-  setupTravis: function () {
-    if (!this.options.travis) {
-      return;
-    }
-
-    this.copy('travis.yml', '.travis.yml');
-
-    var done = this.async();
-    var packageJson = path.join(
-      this.options.cwd || process.cwd(),
-      'package.json'
-    );
-
-    fs.readFile(packageJson, { encoding: 'utf-8' }, function (err, content) {
-      var data;
-      if (err) {
-        this.log.error('Could not open package.json for reading.', err);
-        done();
+    writeGruntFile: function () {
+      if (!this.options['gruntfile-path']) {
         return;
       }
 
-      try {
-        data = JSON.parse(content);
-      } catch (err) {
-        this.log.error('Could not parse package.json.', err);
-        done();
+      this.gruntfile.loadNpmTasks('grunt-karma');
+      this.gruntfile.insertConfig(
+        'karma',
+        JSON.stringify({
+          unit: {
+            options: {
+              'autoWatch': false,
+              'browsers': this.options.browsers,
+              'configFile': [
+                this.options['config-path'],
+                '/',
+                this.options['config-file']
+              ].join(''),
+              'singleRun': true
+            }
+          }
+        })
+      );
+      this.gruntfile.registerTask('test', ['karma']);
+    },
+
+    setupTravis: function () {
+      if (!this.options.travis) {
+        return;
+      }
+
+      this.fs.copy(
+        this.templatePath('travis.yml'),
+        this.destinationPath('.travis.yml')
+      );
+
+      var data = this.fs.readJSON(this.destinationPath('package.json'));
+
+      if (!data) {
+        this.log.error('Could not open package.json for reading.');
         return;
       }
 
       if (data.scripts && data.scripts.test) {
-        this.log.writeln(
-          'Test script already present in package.json. Skipping rewriting.'
-        );
-        done();
-        return;
+        this.log.writeln('Test script already present in package.json. Skipping rewriting.');
+      } else {
+        data.scripts = data.scripts || {};
+        data.scripts.test = 'grunt test';
+        this.fs.writeJSON(this.destinationPath('package.json'), data);
       }
-
-      data.scripts = data.scripts || {};
-      data.scripts.test = 'grunt test';
-
-      fs.writeFile(packageJson, JSON.stringify(data, null, 2), done);
-    }.bind(this));
+    }
   },
 
-  installDeps: function () {
-    if (!this.options['skip-install']) {
-        this.npmInstall();
-    }
+  install: function () {
+    this.npmInstall();
   }
 });

@@ -6,20 +6,20 @@
 module.exports = (config) ->
   config.set
     # base path, that will be used to resolve files and exclude
-    basePath: '<%= options["base-path"] %>'
+    basePath: '<%= basePath %>'
 
     # testing framework to use (jasmine/mocha/qunit/...)
     # as well as any additional frameworks (requirejs/chai/sinon/...)
     frameworks: [<%= templateArray(frameworks) %>]
 
     # list of files / patterns to load in the browser
-    files: [<%= templateArray(configFiles, options["files-comments"], true) %>],
+    files: [<%= templateArray(configFiles, fileComments, true) %>],
 
     # list of files / patterns to exclude
-    exclude: [<%= templateArray(options["exclude-files"], true) %>]
+    exclude: [<%= templateArray(exclude, true) %>]
 
     # web server port
-    port: <%= options['web-port'] %>
+    port: <%= port %>
 
     # level of logging
     # possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
@@ -33,10 +33,10 @@ module.exports = (config) ->
     # - Safari (only Mac)
     # - PhantomJS
     # - IE (only Windows)
-    browsers: [<%= templateArray(options.browsers, true) %>]
+    browsers: [<%= templateArray(browsers, true) %>]
 
     # Which plugins to enable
-    plugins: [<%= templateArray(options.plugins, true) %>]
+    plugins: [<%= templateArray(plugins, true) %>]
 
     # enable / disable watching file and executing tests whenever any file changes
     autoWatch: true
