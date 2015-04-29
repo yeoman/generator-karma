@@ -137,7 +137,7 @@ module.exports = yeoman.generators.Base.extend({
 
     this.option('travis', {
       type: Boolean,
-      desc: 'Adds a .travis.yaml file',
+      desc: 'Adds a .travis.yml file',
       defaults: false
     });
 
