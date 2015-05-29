@@ -37,6 +37,10 @@ The full list:
 
   Use CoffeeScript instead of JavaScript.
 
+ * `--typescript` Type: Boolean, Default: false
+
+  Use TypeScript instead of JavaScript.
+
  * `--frameworks` Type: String, Default: 'jasmine'
 
   Specifies which testing frameworks to use (CSV list). Example `--frameworks=mocha,chai,requirejs,sinon`

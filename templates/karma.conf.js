@@ -55,5 +55,22 @@ module.exports = function(config) {
     // },
     // URL root prevent conflicts with the site root
     // urlRoot: '_karma_'
+
+    <% if (typescript) { %>
+    preprocessors: {
+      '**/*.ts': ['typescript']
+    },
+    typescriptPreprocessor: {
+      // options passed to the typescript compiler
+      options: {
+        sourceMap: false, // (optional) Generates corresponding .map file.
+        target: 'ES5', // (optional) Specify ECMAScript target version: 'ES3' (default), or 'ES5'
+        module: 'commonjs'
+      },
+      // extra typing definitions to pass to the compiler (globs allowed)
+      typings: [
+        'typings/tsd.d.ts'
+      ]
+    }<% } %>
   });
 };
