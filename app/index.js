@@ -22,6 +22,12 @@ module.exports = yeoman.generators.Base.extend({
 
     this.options.format = this.options.coffee ? 'coffee' : 'js';
 
+    this.option('typescript', {
+      type: Boolean,
+      desc: 'Use TypeScript instead of JavaScript',
+      defaults: false
+    });
+
     this.option('base-path', {
       type: String,
       desc: 'Will be used to resolve files and exclude',
@@ -135,6 +141,10 @@ module.exports = yeoman.generators.Base.extend({
       this.options.plugins.push('karma-coffee-preprocessor');
     }
 
+    if (this.options.typescript) {
+      this.options.plugins.push('karma-typescript-preprocessor');
+    }
+
     this.option('travis', {
       type: Boolean,
       desc: 'Adds a .travis.yml file',
@@ -204,7 +214,8 @@ module.exports = yeoman.generators.Base.extend({
             });
             str.push('\n    ');
             return str.join('');
-          }
+          },
+          typescript: this.options.typescript
         }
       );
     },
@@ -228,6 +239,9 @@ module.exports = yeoman.generators.Base.extend({
       this.options.plugins.forEach(function (plugin) {
         data.devDependencies[plugin] = '*';
       });
+      if (this.options.typescript) {
+        data.devDependencies['typescript'] = "~1.4.0";
+      }
 
       data.devDependencies = sortedObject(data.devDependencies);
       this.fs.writeJSON(this.destinationPath('package.json'), data);
