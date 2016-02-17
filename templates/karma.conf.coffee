@@ -1,7 +1,5 @@
 # Karma configuration
-# http://karma-runner.github.io/0.12/config/configuration-file.html
-# Generated on <%= (new Date).toISOString().split('T')[0] %> using
-# <%= pkg.name %> <%= pkg.version %>
+# Generated on <%= (new Date).toISOString().split('T')[0] %>
 
 module.exports = (config) ->
   config.set

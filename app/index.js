@@ -12,8 +12,6 @@ module.exports = yeoman.generators.Base.extend({
       });
     }
 
-    this.pkg = require('../package.json');
-
     this.option('coffee', {
       type: Boolean,
       desc: 'Use CoffeeScript instead of JavaScript',
@@ -180,7 +178,6 @@ module.exports = yeoman.generators.Base.extend({
       this.fs.copyTpl(
         this.templatePath(this.options['config-file']),
         this.destinationPath(path.join(this.options['config-path'], this.options['config-file'])), {
-          pkg: this.pkg,
           basePath: this.options['base-path'],
           frameworks: this.frameworks,
           fileComments: this.options['files-comments'],
