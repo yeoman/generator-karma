@@ -5,7 +5,7 @@ var helpers = require('yeoman-test');
 var assert = require('yeoman-assert');
 
 describe('Karma generator creation test', function () {
-  describe('creates expected files', function () {
+  describe('creates expected', function () {
     var gen;
     beforeEach(function (done) {
       gen = helpers.run(join(__dirname, '../generators/app'));
@@ -14,35 +14,21 @@ describe('Karma generator creation test', function () {
       });
     });
 
-    it('creates expected JS file in default folder', function (done) {
+    it('JS file in default folder', function (done) {
       gen.on('end', function () {
         assert.file(['test/karma.conf.js']);
         done();
       });
     });
 
-    it('creates expected JS file in specified folder', function (done) {
+    it('JS file in specified folder', function (done) {
       gen.withOptions({'config-path': 'testingFolder'}).on('end', function () {
         assert.file(['testingFolder/karma.conf.js']);
         done();
       });
     });
 
-    it('creates expected CS file in default folder', function (done) {
-      gen.withOptions({coffee: true}).on('end', function () {
-        assert.file(['test/karma.conf.coffee']);
-        done();
-      });
-    });
-
-    it('creates expected CS file in specified folder', function (done) {
-      gen.withOptions({'config-path': 'csFolder', coffee: true}).on('end', function () {
-        assert.file(['csFolder/karma.conf.coffee']);
-        done();
-      });
-    });
-
-    it('creates a Gruntfile', function (done) {
+    it('Gruntfile', function (done) {
       gen.withOptions({'gruntfile-path': '.'}).on('end', function () {
         assert.file(['test/karma.conf.js', 'Gruntfile.js']);
         done();
