@@ -73,10 +73,6 @@ The full list:
 
   Directory where Bower components are installed, if not in the default location.
 
- * `--travis` Type: Boolean, Default: false
-
-  Enable [Travis CI](https://travis-ci.org/) config generation by adding a .travis.yaml file.
-
  * `--gruntfile-path` Type: String, Default: ''
 
   Path to a Gruntfile to edit. This is relative to your generators root directory. In other words, relative to `this.destinationRoot()` path.
