@@ -133,12 +133,6 @@ module.exports = generators.Base.extend({
       this.options.plugins.push('karma-coffee-preprocessor');
     }
 
-    this.option('travis', {
-      type: Boolean,
-      desc: 'Adds a .travis.yml file',
-      defaults: false
-    });
-
     this.option('template-path', {
       type: String,
       desc: 'Path where the config files should be read from',
@@ -260,16 +254,7 @@ module.exports = generators.Base.extend({
       this.gruntfile.registerTask('test', ['karma']);
     },
 
-    setupTravis: function () {
-      if (!this.options.travis) {
-        return;
-      }
-
-      this.fs.copy(
-        this.templatePath('travis.yml'),
-        this.destinationPath('.travis.yml')
-      );
-
+    writeRunner: function () {
       var data = this.fs.readJSON(this.destinationPath('package.json'));
 
       if (!data) {

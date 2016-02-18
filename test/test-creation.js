@@ -68,38 +68,12 @@ describe('Karma generator creation test', function () {
           done();
         });
     });
-
-    it('creates a travis file but warns about missing package.json', function (done) {
-      gen.withOptions({travis: true})
-        .on('end', function () {
-          gen.generator.log.error = gen.generator.log.__olderror;
-          assert.file(['.travis.yml']);
-          assert(
-            logMessage.indexOf('Could not open package.json for reading.') > -1
-          );
-          done();
-        });
-    });
-  });
-
-  it('creates a travis file and updates package.json', function (done) {
-    helpers
-      .run(join(__dirname, '../generators/app'))
-      .withOptions({travis: true, force: true})
-      .inTmpDir(function (dir) {
-        require('fs').writeFileSync(join(dir,'package.json'), '{}');
-      })
-      .on('end', function () {
-        assert.file(['.travis.yml']);
-        assert.fileContent('package.json', /grunt test/);
-        done();
-      });
   });
 
   it('updates package.json with karma dependencies', function (done) {
     helpers
       .run(join(__dirname, '../generators/app'))
-      .withOptions({travis: true, force: true})
+      .withOptions({force: true})
       .inTmpDir(function (dir) {
         require('fs').writeFileSync(join(dir,'package.json'), '{"dependencies":{"grunt":"1.0.0"}}');
       })
