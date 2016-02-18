@@ -25,11 +25,13 @@
     "karma"
   ],
   "dependencies": {
-    "underscore": "^1.6.0",
-    "yeoman-generator": "^0.19.1",
+    "underscore": "^1.8.3",
+    "yeoman-generator": "^0.22.5",
     "sorted-object": "~1.0.0"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "yeoman-assert": "^2.1.1",
+    "yeoman-test": "^1.1.0"
   }
 }

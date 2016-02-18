@@ -1,10 +1,10 @@
 'use strict';
 var path = require('path');
-var yeoman = require('yeoman-generator');
+var generators = require('yeoman-generator');
 var sortedObject = require('sorted-object');
 var _ = require('underscore');
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = generators.Base.extend({
   initializing: function () {
     function arrayFromString(str) {
       return str.split(',').filter(function (check) {
@@ -177,7 +177,10 @@ module.exports = yeoman.generators.Base.extend({
 
       this.fs.copyTpl(
         this.templatePath(this.options['config-file']),
-        this.destinationPath(path.join(this.options['config-path'], this.options['config-file'])), {
+        this.destinationPath(
+          path.join(this.options['config-path'], this.options['config-file'])
+        ),
+        {
           basePath: this.options['base-path'],
           frameworks: this.frameworks,
           fileComments: this.options['files-comments'],

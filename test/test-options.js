@@ -1,8 +1,8 @@
 /*global describe, it */
 'use strict';
 var path = require('path');
-var helpers = require('yeoman-generator').test;
-var assert = require('yeoman-generator').assert;
+var helpers = require('yeoman-test');
+var assert = require('yeoman-assert');
 
 describe('Karma generator options test', function () {
   it('creates expected options', function (done) {
@@ -24,13 +24,12 @@ describe('Karma generator options test', function () {
     };
 
     helpers.run(path.join(__dirname, '../app'))
-      .inDir(path.join(__dirname, 'temp'))
+      .inDir(path.join(__dirname, 'tmp'))
       .withOptions(config)
       .on('end', function () {
         var frameworks = config.frameworks.split(',');
         var test = require(path.resolve(
-          config['config-path'],
-          config['config-file']
+          config['config-path'], config['config-file']
         ));
 
         assert.equal(config['base-path'], test['base-path']);

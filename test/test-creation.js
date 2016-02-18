@@ -1,8 +1,8 @@
 /*global describe, beforeEach, it */
 'use strict';
 var join = require('path').join;
-var assert = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
+var helpers = require('yeoman-test');
+var assert = require('yeoman-assert');
 
 describe('Karma generator creation test', function () {
   describe('creates expected files', function () {
