@@ -195,7 +195,7 @@ module.exports = generators.Base.extend({
               str.push('\n      ' + (coffee ? '# ' : '// ') + comment);
             });
             _.uniq(files).forEach(function (item, index) {
-              str.push('\n      \"' + item + '\"');
+              str.push('\n      \'' + item + '\'');
               if (index + 1 !== files.length) {
                 if (!coffee) {
                   str.push(',');

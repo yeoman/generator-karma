@@ -1,23 +1,23 @@
 # Karma configuration
-# Generated on <%= (new Date).toISOString().split('T')[0] %>
+# Generated on <%- (new Date).toISOString().split('T')[0] %>
 
 module.exports = (config) ->
   config.set
     # base path, that will be used to resolve files and exclude
-    basePath: '<%= basePath %>'
+    basePath: '<%- basePath %>'
 
     # testing framework to use (jasmine/mocha/qunit/...)
     # as well as any additional frameworks (requirejs/chai/sinon/...)
-    frameworks: [<%= templateArray(frameworks) %>]
+    frameworks: [<%- templateArray(frameworks) %>]
 
     # list of files / patterns to load in the browser
-    files: [<%= templateArray(configFiles, fileComments, true) %>],
+    files: [<%- templateArray(configFiles, fileComments, true) %>],
 
     # list of files / patterns to exclude
-    exclude: [<%= templateArray(exclude, true) %>]
+    exclude: [<%- templateArray(exclude, true) %>]
 
     # web server port
-    port: <%= port %>
+    port: <%- port %>
 
     # level of logging
     # possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
@@ -31,10 +31,10 @@ module.exports = (config) ->
     # - Safari (only Mac)
     # - PhantomJS
     # - IE (only Windows)
-    browsers: [<%= templateArray(browsers, true) %>]
+    browsers: [<%- templateArray(browsers, true) %>]
 
     # Which plugins to enable
-    plugins: [<%= templateArray(plugins, true) %>]
+    plugins: [<%- templateArray(plugins, true) %>]
 
     # enable / disable watching file and executing tests whenever any file changes
     autoWatch: true
