@@ -16,10 +16,10 @@ module.exports = function(config) {
     frameworks: [<%- templateArray(frameworks) %>],
 
     // list of files / patterns to load in the browser
-    files: [<%- templateArray(configFiles, fileComments) %>],
+    files: [<%- templateArray(sourceFiles, sourceFileComments) %>],
 
     // list of files / patterns to exclude
-    exclude: [<%- templateArray(exclude) %>],
+    exclude: [<%- templateArray(excludeFiles) %>],
 
     // web server port
     port: <%- port %>,
