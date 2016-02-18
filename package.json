@@ -10,7 +10,7 @@
     "npm": ">=1.2.10"
   },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha"
   },
   "files": [
     "generators"
