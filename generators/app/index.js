@@ -143,7 +143,7 @@ module.exports = generators.Base.extend({
       type: String,
       desc: 'Path where the config files should be read from',
       hide: true,
-      defaults: '../templates'
+      defaults: 'templates'
     });
 
     this.option('config-path', {

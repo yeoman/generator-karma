@@ -18,12 +18,12 @@ describe('Karma generator options test', function () {
       'test-files': 'tests/spec/*.js',
       'exclude-files': 'exclude/files.js',
       plugins: 'qunit,jazzy',
-      'template-path': '../test',
+      'template-path': '../../test',
       'config-path': 'testing',
       'config-file': 'config.mock.json'
     };
 
-    helpers.run(path.join(__dirname, '../app'))
+    helpers.run(path.join(__dirname, '../generators/app'))
       .inDir(path.join(__dirname, 'tmp'))
       .withOptions(config)
       .on('end', function () {

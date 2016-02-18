@@ -8,7 +8,7 @@ describe('Karma generator creation test', function () {
   describe('creates expected files', function () {
     var gen;
     beforeEach(function (done) {
-      gen = helpers.run(join(__dirname, '../app'));
+      gen = helpers.run(join(__dirname, '../generators/app'));
       gen.inTmpDir(function () {
         done();
       });
@@ -56,7 +56,7 @@ describe('Karma generator creation test', function () {
 
     beforeEach(function (done) {
       logMessage = '';
-      gen = helpers.run(join(__dirname, '../app'))
+      gen = helpers.run(join(__dirname, '../generators/app'))
         .on('ready', function () {
           gen.generator.log.__olderror = gen.generator.log.error;
           gen.generator.log.error = function () {
@@ -84,7 +84,7 @@ describe('Karma generator creation test', function () {
 
   it('creates a travis file and updates package.json', function (done) {
     helpers
-      .run(join(__dirname, '../app'))
+      .run(join(__dirname, '../generators/app'))
       .withOptions({travis: true, force: true})
       .inTmpDir(function (dir) {
         require('fs').writeFileSync(join(dir,'package.json'), '{}');
@@ -98,7 +98,7 @@ describe('Karma generator creation test', function () {
 
   it('updates package.json with karma dependencies', function (done) {
     helpers
-      .run(join(__dirname, '../app'))
+      .run(join(__dirname, '../generators/app'))
       .withOptions({travis: true, force: true})
       .inTmpDir(function (dir) {
         require('fs').writeFileSync(join(dir,'package.json'), '{"dependencies":{"grunt":"1.0.0"}}');
