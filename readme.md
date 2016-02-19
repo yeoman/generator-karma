@@ -84,6 +84,27 @@ The full list:
   Path where the config files should be written to. This is where the `karma.conf.js` file will be placed.
 
 
+## Composing With This Generator
+
+This generator is now able to work with other generators. Any option specified above can be passed in. All of the csv type arguments can also accept arrays.
+
+To use this, first include it as a devDependencies in the calling generator.
+
+Next, include the code to actually use it:
+
+```
+this.composeWith('karma:app', {
+  options: {
+    frameworks: ['mocha', 'chai', 'sinon']
+    ]
+  }
+}, {
+  local: require.resolve('generator-karma/generators/app/index.js')
+});
+
+```
+
+
 **Migrating from version 1:** The CoffeeScript and Gruntfile options have been remove. This is to make this generator more streamlined. Those should be built on top of this generator if people want a generator with that functionality.
 
 ## Configuration
