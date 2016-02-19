@@ -23,9 +23,7 @@
     "karma"
   ],
   "dependencies": {
-    "underscore": "^1.8.3",
-    "yeoman-generator": "^0.22.5",
-    "sorted-object": "~1.0.0"
+    "yeoman-generator": "^0.22.5"
   },
   "devDependencies": {
     "mocha": "*",

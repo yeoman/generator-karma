@@ -1,24 +1,10 @@
 'use strict';
 var path = require('path');
 var generators = require('yeoman-generator');
-var sortedObject = require('sorted-object');
-var _ = require('underscore');
 
 module.exports = generators.Base.extend({
-  initializing: function () {
-    function arrayFromString(str) {
-      return str.split(',').filter(function (check) {
-        return check && check !== '';
-      });
-    }
-
-    this.option('coffee', {
-      type: Boolean,
-      desc: 'Use CoffeeScript instead of JavaScript',
-      defaults: false
-    });
-
-    this.options.format = this.options.coffee ? 'coffee' : 'js';
+  constructor: function () {
+    generators.Base.apply(this, arguments);
 
     this.option('base-path', {
       type: String,
@@ -33,47 +19,29 @@ module.exports = generators.Base.extend({
     });
 
     this.option('frameworks', {
-      type: String,
-      desc: 'Specifies which testing frameworks to use (comma separated)',
+      desc: 'Specifies which testing frameworks to use (array or csv)',
       defaults: 'jasmine'
     });
 
-    this.options.frameworks = arrayFromString(this.options.frameworks);
-    this.frameworks = this.options.frameworks.map(function (framework) {
-      return framework.toLowerCase();
-    });
-
     this.option('browsers', {
-      type: String,
-      desc: 'What browsers to test in (comma separated)',
+      desc: 'What browsers to test in (array or csv)',
       defaults: 'PhantomJS'
     });
 
-    this.options.browsers = arrayFromString(this.options.browsers);
-
     this.option('app-files', {
-      type: String,
-      desc: 'List of application files (comma separated)',
+      desc: 'List of application files (array or csv)',
       defaults: ''
     });
-
-    this.options['app-files'] = arrayFromString(this.options['app-files']);
 
     this.option('files-comments', {
-      type: String,
-      desc: 'List of comments for files property (comma separated)',
+      desc: 'List of comments for files property (array or csv)',
       defaults: ''
     });
-
-    this.options['files-comments'] = arrayFromString(this.options['files-comments']);
 
     this.option('bower-components', {
-      type: String,
-      desc: 'Optional components to use for testing (comma separated of components)',
+      desc: 'Optional components to use for testing (array or csv)',
       defaults: ''
     });
-
-    this.options['bower-components'] = arrayFromString(this.options['bower-components']);
 
     this.option('bower-components-path', {
       type: String,
@@ -82,56 +50,19 @@ module.exports = generators.Base.extend({
     });
 
     this.option('test-files', {
-      type: String,
-      desc: 'List of test files (comma separated)',
+      desc: 'List of test files (array or csv)',
       defaults: ''
     });
-
-    this.options['test-files'] = arrayFromString(this.options['test-files']);
 
     this.option('exclude-files', {
-      type: String,
-      desc: 'List of files to exclude (comma separated)',
+      desc: 'List of files to exclude (array or csv)',
       defaults: ''
     });
-
-    this.options['exclude-files'] = arrayFromString(this.options['exclude-files']);
-
-    var files = this.options['bower-components'].map(function (component) {
-      return this.options['bower-components-path'] + (
-        this.options['bower-components-path'].slice(-1) === '/' ? '' : '/'
-      ) + component;
-    }.bind(this));
-
-    this.configFiles = [].concat(
-      files,
-      this.options['app-files'],
-      this.options['test-files']
-    );
 
     this.option('plugins', {
-      type: String,
-      desc: 'Specify Karma plugins (npm modules)',
+      desc: 'Specify Karma plugins npm module name (array or csv)',
       defaults: ''
     });
-
-    this.options.plugins = this.options.plugins ? this.options.plugins.split(',') : [];
-
-    // Add browsers to the plugins list
-    if (this.options.browsers.length) {
-      this.options.browsers.forEach(function (browser) {
-        this.options.plugins.push('karma-' + browser.toLowerCase() + '-launcher');
-      }.bind(this));
-    }
-
-    // Add frameworks to the plugins list
-    this.options.plugins = this.options.plugins.concat(this.frameworks.map(function (framework) {
-      return 'karma-' + framework;
-    }));
-
-    if (this.options.coffee) {
-      this.options.plugins.push('karma-coffee-preprocessor');
-    }
 
     this.option('template-path', {
       type: String,
@@ -151,129 +82,135 @@ module.exports = generators.Base.extend({
       type: String,
       desc: 'The config file to populate',
       hide: true,
-      defaults: ''
+      defaults: 'karma.conf.js'
     });
 
-    this.option('gruntfile-path', {
-      type: String,
-      desc: 'Path to a Gruntfile to edit',
-      defaults: ''
-    });
+  },
 
-    if (!this.options['config-file']) {
-      this.options['config-file'] = 'karma.conf.' + this.options.format;
+  configuring: function () {
+    var inputToArray = function (str) {
+      str = Array.isArray(str) ? str : str.split(',');
+      return str.filter(function (check, index, arr) {
+        return check && check !== '' && arr.indexOf(check) === index;
+      });
+    };
+
+    var frameworks = inputToArray(this.options.frameworks);
+    var browsers = inputToArray(this.options.browsers);
+
+    // Convert the options to template usable strings
+    this.templateSettings = {
+      basePath: this.options['base-path'],
+      port: this.options['web-port'],
+      frameworks: frameworks,
+      sourceFiles: [].concat(
+        inputToArray(this.options['bower-components']).map(function (bc) {
+          return path.join(this.options['bower-components-path'], bc);
+        }, this),
+        inputToArray(this.options['app-files']),
+        inputToArray(this.options['test-files'])
+      ),
+      sourceFileComments: inputToArray(this.options['files-comments']),
+      excludeFiles: inputToArray(this.options['exclude-files']),
+      browsers: browsers,
+      plugins: [].concat(
+        inputToArray(this.options.plugins),
+        browsers.map(function (browser) {
+          return 'karma-' + browser.toLowerCase() + '-launcher';
+        }),
+        frameworks.map(function (framework) {
+          return 'karma-' + framework;
+        })
+      ),
+      templateArray: function (files, comments) {
+        var str = (comments || []).map(function (comment) {
+          return '\n      // ' + comment;
+        });
+        files.forEach(function (item, index) {
+          str.push('\n      \'' + item + '\'');
+          if (index + 1 !== files.length) {
+            str.push(',');
+          }
+        });
+        str.push('\n    ');
+        return str.join('');
+      }
+    };
+
+    // Store the options if they were set
+    [
+      'base-path',
+      'web-port',
+      'frameworks',
+      'browsers',
+      'app-files',
+      'files-comments',
+      'bower-components',
+      'bower-components-path',
+      'test-files',
+      'exclude-files',
+      'plugins'
+    ].forEach(function (option) {
+      var opt = this.options[option];
+      if (opt.length) {
+        this.config.set(option, opt);
+      }
+    }, this);
+
+    if (this.options['template-path'] !== 'templates') {
+      this.config.set('template-path', this.options['template-path']);
     }
   },
 
-  writing: {
-    makeConfig: function () {
-      this.sourceRoot(path.join(__dirname, this.options['template-path']));
+  writing: function () {
+    var configName = this.options['config-file'];
+    var configFile = path.join(this.options['config-path'], configName);
 
-      this.fs.copyTpl(
-        this.templatePath(this.options['config-file']),
-        this.destinationPath(
-          path.join(this.options['config-path'], this.options['config-file'])
-        ),
-        {
-          basePath: this.options['base-path'],
-          frameworks: this.frameworks,
-          fileComments: this.options['files-comments'],
-          configFiles: this.configFiles,
-          exclude: this.options['exclude-files'],
-          port: this.options['web-port'],
-          browsers: this.options.browsers,
-          plugins: this.options.plugins,
-          templateArray: function (files, comments, coffee) {
-            var str = [];
-            _.each(comments, function (comment) {
-              str.push('\n      ' + (coffee ? '# ' : '// ') + comment);
-            });
-            _.uniq(files).forEach(function (item, index) {
-              str.push('\n      \'' + item + '\'');
-              if (index + 1 !== files.length) {
-                if (!coffee) {
-                  str.push(',');
-                }
-              }
-            });
-            str.push('\n    ');
-            return str.join('');
-          }
-        }
+    if (this.options['template-path'] === 'templates') {
+      this.options['template-path'] = path.join(__dirname, 'templates');
+    }
+
+    this.sourceRoot(this.options['template-path']);
+
+    // Copy the Karma.config template
+    this.fs.copyTpl(
+      this.templatePath(configName),
+      this.destinationPath(configFile),
+      this.templateSettings
+    );
+
+    // Write a `npm test` line in the package.json
+    var pkg = this.fs.readJSON(this.destinationPath('package.json'), {
+      scripts: {},
+      dependencies: {},
+      devDependencies: {}
+    });
+    pkg.scripts = pkg.scripts || {};
+    var command = 'karma start ' + configFile;
+    if (!pkg.scripts.test) {
+      pkg.scripts.test = command;
+      this.fs.writeJSON(this.destinationPath('package.json'), pkg);
+    } else {
+      this.log.writeln(
+        'Consider using `"test": "' + command + '"` in your ' +
+        'package.json file\'s script section'
       );
-    },
-
-    writeDependencies: function () {
-      this.options.plugins.push('grunt-karma');
-
-      if (this.options.coffee) {
-        this.options.plugins.push('coffee-script');
-      }
-
-      var data = this.fs.readJSON(this.destinationPath('package.json'));
-
-      if (!data) {
-        this.log.error('Could not open package.json for reading.');
-        return;
-      }
-
-      data.devDependencies = data.devDependencies || {};
-
-      this.options.plugins.forEach(function (plugin) {
-        data.devDependencies[plugin] = '*';
-      });
-
-      data.devDependencies = sortedObject(data.devDependencies);
-      this.fs.writeJSON(this.destinationPath('package.json'), data);
-    },
-
-    writeGruntFile: function () {
-      if (!this.options['gruntfile-path']) {
-        return;
-      }
-
-      this.gruntfile.loadNpmTasks('grunt-karma');
-      this.gruntfile.insertConfig(
-        'karma',
-        JSON.stringify({
-          unit: {
-            options: {
-              autoWatch: false,
-              browsers: this.options.browsers,
-              configFile: [
-                this.options['config-path'],
-                '/',
-                this.options['config-file']
-              ].join(''),
-              singleRun: true
-            }
-          }
-        })
-      );
-
-      this.gruntfile.registerTask('test', ['karma']);
-    },
-
-    writeRunner: function () {
-      var data = this.fs.readJSON(this.destinationPath('package.json'));
-
-      if (!data) {
-        this.log.error('Could not open package.json for reading.');
-        return;
-      }
-
-      if (data.scripts && data.scripts.test) {
-        this.log.writeln('Test script already present in package.json. Skipping rewriting.');
-        return;
-      }
-
-      data.scripts = data.scripts || {};
-      data.scripts.test = 'grunt test';
-      this.fs.writeJSON(this.destinationPath('package.json'), data);
     }
   },
 
   install: function () {
-    this.npmInstall();
+    var plugins = this.templateSettings.plugins;
+
+    // Install Karma to run the tests
+    plugins.unshift('karma');
+
+    // Install some peerDeps since they don't get automatically installed
+    if (plugins.indexOf('karma-jasmine')) {
+      plugins.push('jasmine-core');
+    }
+    if (plugins.indexOf('karma-phantomjs-launcher')) {
+      plugins.push('phantomjs-prebuilt');
+    }
+    this.npmInstall(plugins, {saveDev: true});
   }
 });
