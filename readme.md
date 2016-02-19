@@ -16,8 +16,6 @@ Running `yo karma` will generate a config file for your project: `karma.conf.js`
 
 By default, running `yo karma` will generate a pretty boring (and almost useless) config file. The real power is using the options to specify almost every part of the config file.
 
-Note that you'll need to update your `Gruntfile.js` if you don't specify the `--gruntfile-path` option.
-
 
 ## Options
 
@@ -28,14 +26,6 @@ Options are specified after `yo karma`. Example:
 `yo karma --skip-install --frameworks=jasmine --app-files='app/**/*.js,public/**/*.js'`
 
 The full list:
-
- * `--skip-install` Type: Boolean, Default: false
-
-  Skips the automatic execution of `npm` after scaffolding has finished.
-
- * `--coffee` Type: Boolean, Default: false
-
-  Use CoffeeScript instead of JavaScript.
 
  * `--frameworks` Type: String, Default: 'jasmine'
 
@@ -73,10 +63,6 @@ The full list:
 
   Directory where Bower components are installed, if not in the default location.
 
- * `--gruntfile-path` Type: String, Default: ''
-
-  Path to a Gruntfile to edit. This is relative to your generators root directory. In other words, relative to `this.destinationRoot()` path.
-
  * `--base-path` Type: String, Default: ''
 
   Will be used to resolve files and exclude in the `karma.conf.js` file.
@@ -97,6 +83,8 @@ The full list:
 
   Path where the config files should be written to. This is where the `karma.conf.js` file will be placed.
 
+
+**Migrating from version 1:** The CoffeeScript and Gruntfile options have been remove. This is to make this generator more streamlined. Those should be built on top of this generator if people want a generator with that functionality.
 
 ## Configuration
 
