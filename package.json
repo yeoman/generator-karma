@@ -23,7 +23,7 @@
     "karma"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.22.5"
+    "yeoman-generator": "^1.1.0"
   },
   "devDependencies": {
     "mocha": "*",
