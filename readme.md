@@ -1,5 +1,7 @@
 # Karma generator [![Build Status](https://secure.travis-ci.org/yeoman/generator-karma.svg?branch=master)](http://travis-ci.org/yeoman/generator-karma)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/yeoman/generator-karma.svg)](https://greenkeeper.io/)
+
 See the [Karma documentation](http://karma-runner.github.com/) for more info.
 
 
