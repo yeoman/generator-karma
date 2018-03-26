@@ -119,4 +119,4 @@ See the [contributing docs](https://github.com/yeoman/yeoman/blob/master/contrib
 
 ## License
 
-[BSD license](http://opensource.org/licenses/bsd-license.php)
+BSD-2-Clause
